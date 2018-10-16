@@ -61,8 +61,46 @@ def superNaiveSentiment(review):
             
     return rPol
 
+from nltk.corpus import stopwords
+from string import punctuation
+stopWords = list(list(stopwords.words('english'))+list(punctuation))
+def naiveSentiment(review):
+    rPol=0.0
+    numExp=0
+    for word in review.lower().split():
+#        print("word "+word)
+        
+        numMeanings=0
+        if word in stopWords:
+            continue
+        weight=0.0
+        try:
+            for meaning in swn.senti_synsets(word):
+#                
+#            common_mean = list(swn.senti_synsets(word))[0]
+#            #print("cm "+common_mean)
+                if meaning.pos_score()>meaning.neg_score():
+                    weight+=(meaning.pos_score()-meaning.neg_score())
+                    numMeanings+=1
+                elif meaning.pos_score()<meaning.neg_score():
+                    
+                    weight-= (meaning.neg_score()-meaning.pos_score())
+                    numMeanings+=1
+        except:
+#            print('ex')
+            numExp+=1
+        if numMeanings>0:
+            rPol = rPol +(weight/numMeanings)
+            
+#        rPol+=weight
+            
+    return rPol
+
+    
+    
+
 #superNaiveSentiment('you are ugly but brilliant awesome fun')            
-runDiagnostics(getReviewSenti(superNaiveSentiment))
+runDiagnostics(getReviewSenti(naiveSentiment))
     
 
 
