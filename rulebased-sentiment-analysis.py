@@ -38,8 +38,31 @@ def runDiagnostics(reviewResults):
     print("Accuracy of negetive reviews="+"%.2f"%(perctTrueNeg*100)+"%")
     print("Overall accuracy="+"%.2f"%(totalAccurate*100/total)+"%")
     
-runDiagnostics(getReviewSenti(vaderSentiment))
+#runDiagnostics(getReviewSenti(vaderSentiment))
+from nltk.corpus import sentiwordnet as swn
+def superNaiveSentiment(review):
     
+    rPol=0.0
+    numExp=0
+    for word in review.lower().split():
+#        print("word "+word)
+        weight=0.0
+        try:
+            common_mean = list(swn.senti_synsets(word))[0]
+            #print("cm "+common_mean)
+            if common_mean.pos_score()>common_mean.neg_score():
+                weight+=common_mean.pos_score()
+            elif common_mean.pos_score()<common_mean.neg_score():
+                weight-= common_mean.neg_score()
+        except:
+#            print('ex')
+            numExp+=1
+        rPol+=weight
+            
+    return rPol
+
+#superNaiveSentiment('you are ugly but brilliant awesome fun')            
+runDiagnostics(getReviewSenti(superNaiveSentiment))
     
 
 
