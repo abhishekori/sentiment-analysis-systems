@@ -100,6 +100,12 @@ def naiveSentiment(review):
     
 
 #superNaiveSentiment('you are ugly but brilliant awesome fun')            
+print('Running Diagnostics \n ------------------------ \n')
+print('\n Vader\n')
+runDiagnostics(getReviewSenti(vader))
+print('\n Super naive Setiment analysis \n')
+runDiagnostics(getReviewSenti(superNaiveSentiment))
+print('\n Naive Setiment analysis \n')
 runDiagnostics(getReviewSenti(naiveSentiment))
     
 
