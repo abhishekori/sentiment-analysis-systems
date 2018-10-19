@@ -65,6 +65,8 @@ def nbSentimentCalc(review):
     problemFeatures = extractFeatures(problemInstance)
     return trainedNBClassifier.classify(problemFeatures)
 
+nbSentimentCalc("what an bad good movie")
+
 
 
 
